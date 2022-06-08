@@ -7,3 +7,22 @@ npm 은 node package Manager의 약자로 노드 패키지 매니저임
 노드 프로젝트 시작하려면 폴더 내부에 무조건 package.json부터 만들고 시작함
 
 npm init 하면 패키지 매니저 만들어짐
+
+//노드 패키지들의 버전은 항상 세자리로 구성
+semver 방식의 버전 넘버링을 따름
+
+//semver = semantic versioning 유의적 버전
+
+major.minor.patch
+major 0 초기 개발중 1부터 정식 - 하위 호환이 되지 않을 정도 중요한 버전
+minor 호환 아랫버전과 관령벗어야함
+patch 패치임.
+
+새 버전을 배포한 후 그 버전의 내용 수정하면 안됨
+
+^ 마이너 버전까지만 설치하거나 업데이트 1.x.x 와같이 표현하기도 함
+~ patch 버전까지만 서치
+latest 안정된 최신 버전
+
+next 가장 최근 배포판
+
