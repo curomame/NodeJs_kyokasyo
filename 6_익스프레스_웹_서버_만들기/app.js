@@ -6,7 +6,14 @@ const session = require('express-session');
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
+
+
 dotenv.config();
+
+
+const indexRouter = require('./routes');
+const userRouter = require('./routes/user');
+const router = require('./routes');
 
 try{
   fs.readdirSync('uploads');
@@ -33,6 +40,8 @@ const app = express();
 
 
 app.set('port', process.env.PORT || 3000);
+app.set('views', path.join(__dirname,'views'));
+app.set('view engine','pug');
 
 app.use(morgan('dev'));
 app.use('/',express.static(path.join(__dirname,'public')));
@@ -54,17 +63,46 @@ app.use(session({
 //   res.sendFile(path.join(__dirname,'/index.html'));
 // })
 
+
+
 app.use((req,res,next) => {
   console.log('모든 요청에 전부 실행');
   next();
 });
 
+
+
+
 app.get('/',(req,res,next) => {
-  console.log('get에서 실행');
+  next('route');
+},(req,res, next) => {
+  console.log('실행되지 않습니다.');
+  next()
+},(req,res,next) => {
+  console.log('실행되지 않습니다');
   next();
-},(req,res) => {
-  throw new Error('에러 처리 미들 웨어')
 })
+
+router.get('/', (req,res) => {
+  console.log('실행됨');;
+  res.send('Hello Express')
+})
+
+router.get('/user/like', (req,res) => {
+  console.log(req.params, req.query);
+})
+
+router.get('/user/:id', (req,res) => { //와일드 카드라 맨 뒤에 위치해야함
+  console.log(req.params, req.query);
+})
+
+
+app.use('/', indexRouter);
+app.use('/user',userRouter);
+// app.use((req,res,next) => {
+//   res.status(404).send('Not Found')
+// })
+
 
 app.get('/upload',(req,res) => {
   res.sendFile(path.join(__dirname,'multipart.html'));
@@ -76,8 +114,16 @@ app.post('/upload',upload.fields([{name:'image1'},{name:'image2'}]),(req,res) =>
 })
 
 app.use((err,req,res,next) => {
-  console.error(err);
-  res.status(500).send(err.message);
+  const error = new Error(`${req.method}${req.url} 라우터가 없습니다.` );
+  error.status = 404;
+  next(error);
+})
+
+app.use((err,req,res,next) => {
+  res.locals.message = err.message;
+  res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
+  res.status(err.status || 500);
+  res.render('error')
 })
 
 app.listen(app.get('port'), () => {
