@@ -99,9 +99,9 @@ router.get('/user/:id', (req,res) => { //와일드 카드라 맨 뒤에 위치�
 
 app.use('/', indexRouter);
 app.use('/user',userRouter);
-// app.use((req,res,next) => {
-//   res.status(404).send('Not Found')
-// })
+app.use((req,res,next) => {
+  res.status(404).send('Not Found')
+})
 
 
 app.get('/upload',(req,res) => {
