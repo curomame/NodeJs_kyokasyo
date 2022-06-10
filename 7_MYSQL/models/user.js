@@ -19,7 +19,7 @@ module.exports = class User extends Sequelize.Model{
       },
       comment:{
         type:Sequelize.TEXT,
-        allowNull:ture,
+        allowNull:true,
       },
       created_at:{
         type:Sequelize.DATE,
@@ -39,5 +39,12 @@ module.exports = class User extends Sequelize.Model{
 
     })
   }
-  static associate(db) {}
+  static associate(db) {
+    db.User.hasMany(db.Comment, {foreignKey : 'commenter', sourceKey:'id'})
+  }
 }
+
+//1:N 관계는 hasMany Belongs to
+
+// User => has Many => Comment
+// Comment => Belongs to => User
