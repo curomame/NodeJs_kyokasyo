@@ -2,4 +2,5 @@
 .env
 /uploads
 /config
+
 /schemas/index.js
