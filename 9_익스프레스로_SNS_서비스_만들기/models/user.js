@@ -32,7 +32,7 @@ module.exports = class User extends Sequelize.Model {
       modelName:'User',
       tableName:'users',
       paranoid:true,
-      charset:'utf-8',
+      charset:'utf8',
       collate:'utf8_general_ci'
     })
   }
