@@ -8,9 +8,9 @@ const nunjucks = require('nunjucks');
 const dotenv =require('dotenv');
 
 dotenv.config();
-const authRouter = require('../9_익스프레스로_SNS_서비스_만들기/routes/auth');
+const authRouter = require('./routes/auth');
 const indexRouter = require('./routes');
-const {Sequelize, sequelize} = require('./models');
+const {sequelize} = require('./models');
 const passportConfig = require('./passport');
 
 const app = express();
