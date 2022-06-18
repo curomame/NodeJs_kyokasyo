@@ -12,6 +12,7 @@ const authRouter = require('./routes/auth');
 const indexRouter = require('./routes');
 const {sequelize} = require('./models');
 const passportConfig = require('./passport');
+const { v1 } = require('uuid');
 
 const app = express();
 passportConfig();
@@ -30,6 +31,7 @@ sequelize.sync({force : false})
     console.error(err);
   });
 
+
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.json());
@@ -47,6 +49,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/v1',v1);
 app.use('/auth',authRouter);
 app.use('/',indexRouter);
 
